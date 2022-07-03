@@ -1081,7 +1081,7 @@ let shopItemsData = [
   },
   {
     "id": "bced",
-    "name": "Ekata",
+    "name": "Ekata S",
     "composition": "Brass (MS58), Aluminium (AlZnMgCu), Steel (SAE316)",
     "unit": "1 use incl. production",
     "co2kg": 1.43,
