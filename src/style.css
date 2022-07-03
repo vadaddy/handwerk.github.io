@@ -1,0 +1,1060 @@
+/* FONTS --------------------------------------------------------------------------------------- */
+  
+/* 'Source Code Pro Variable' */
+@font-face {
+    font-family: 'Source Code Pro Variable';
+    src: url('../fonts/SourceCodePro-VariableFont_wght.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 200 900; /* set any value between 200 and 900 */
+}
+/* 'Source Code Pro Italic Variable' */
+@font-face {
+    font-family: 'Source Code Pro Italic Variable';
+    src: url('../fonts/SourceCodePro-Italic-VariableFont_wght.ttf') format('truetype');
+    font-style: italic;
+    font-weight: 200 900; /* set any value between 200 and 900 */
+}
+/* 'Azeret Mono Variable' */
+@font-face {
+    font-family: 'Azeret Mono Variable';
+    src: url('../fonts/AzeretMono-VariableFont_wght.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 100 900; /* set any value between 100 and 900 */
+}
+/* 'Azeret Mono Italic Variable' */
+@font-face {
+    font-family: 'Azeret Mono Italic Variable';
+    src: url('../fonts/AzeretMono-Italic-VariableFont_wght.ttf') format('truetype');
+    font-style: italic;
+    font-weight: 100 900; /* set any value between 100 and 900 */
+}
+
+
+
+/* OVERALL (resets on 'html' and 'body' elements) ---------------------------------------------- */
+
+* {
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;    
+}
+
+html { /* has its maximum height set to the viewport's height, to later enable splitscreen scrolling on the divs sitting within it */
+    font-size: 18px;
+    height: 100%;
+    max-height: 100%; 
+    -webkit-tap-highlight-color: transparent;         
+}
+@media(min-width: 720px) {  /* at breakpoint 1, */
+html {                      /* html has a decreased font size */
+    font-size: 16px;
+} 
+}
+
+body { /* also has its maximum height set to the viewport's height, to later enable splitscreen scrolling on the divs sitting within it */
+    height: 100%;
+    max-height: 100%;
+    display: flex;      
+    flex-direction: column; /* the body element is split into two main rows: a narrow (horizontal, full-width) header element/ bar at the top, and then a main, full-width element taking up the rest of the page */
+}
+
+
+
+/* CSS CUSTOM PROPERTIES ----------------------------------------------------------------------- */
+
+/* CHANGE THE FOLLOWING VARIABLES HERE: 
+| 1. the 'header' bar's height 
+| 2. the 'cruncher's column's width 
+| 3,4,5. bg-colours on the 'header', '.items' section, '.cruncher' section, 
+| 6. the scrollbar colour
+Other elements' widths and heights are calculated elsewhere, based on these */
+
+:root {
+    --header-ht-mob: 4.8rem;    /* 1. the header's height on mobile */
+    --header-ht: 3rem;        /* 1. the header's height on all other views */
+    --cruncher-wd: 17.5rem;       /* 2. the cruncher's column width */
+
+    --items-bg: rgb(250, 250, 240);       /* 4. bg-color: on .items */  
+    --cruncher-bg: white;     /* 5. the cruncher's bg-colour */
+    --about-bg: rgb(255, 250, 230);
+
+    --scrollbar-col: rgb(154, 180, 164); /* 6. the scrollbars' colour */
+
+    --highlight1: rgb(237, 255, 157);
+    
+    --item-wd: 160px;
+    --item-wd-exp: 205px;
+    --img-ht: 95px;
+    --img-ht-exp: 120px;
+
+    --text-col: rgb(39, 82, 57);
+    --dashed-border: darkgrey;
+
+    --button-col1: rgb(255, 250, 230);
+    --button-hover: rgb(255, 237, 157);
+}   
+
+
+/* TOP-LEVEL CONTAINERS (the body element contains 2 full-width rows: 'header' and 'main') ------ */
+
+header {
+    width: 100%;     
+    box-shadow: 0px 0px 2px lightgray;
+    z-index: 10050;
+    background-color: white;
+}
+
+main { /* has scrolling disabled, to later enable splitscreen scrolling only on the divs sitting within it  */
+    width: 100%;        
+    overflow: hidden;
+}
+
+
+
+/* HEADER -------------------------------------------------------------------------------------- */
+
+header {    /* is split into 2 divs sitting at extreme ends of the bar : 'h1-wrap' (the title block, on the left), and 'buttons' (on the right) */
+    display: flex;  
+    justify-content: space-between;
+    min-height: var(--header-ht-mob); /* the variable assigned above, under 'CSS Custom Properties' */
+    padding: 1rem 1.25rem 0.5rem 1.2rem;
+    border-bottom: 0.5px solid lightgray; 
+}
+.h1-wrap {  /* is also split into 2 divs, to enable clean wrapping of the title and byline */
+    display: flex;
+    flex-direction: column; /* initially the byline sits under the title */
+}
+header .buttons { /* the open-about button */
+    margin-top: 0.2rem;
+    background-color: white;
+    width: 4.8rem;
+    height: fit-content;
+}
+
+#close-about {
+    margin: 0;
+    padding: 0.1rem 0;
+    position: fixed;
+    top: 0.9rem;
+    right: 1.25rem;
+    width: 3.6rem;
+    z-index: 10090;
+    display: none;
+    background-color: var(--about-bg);
+}
+#close-about p {
+    transform: scale(1.25);
+
+}
+
+@media(min-width: 720px){ /* at breakpoint 1, */
+    header {min-height: var(--header-ht);}
+    .h1-wrap {flex-direction: row; gap: 0.6rem;}   /* the byline shifts next to the title */
+    .cart-icon {display: none;}                /* the cart icon is hidden - the calculator column is always shown anyway from this point*/
+    .byline {margin-top: 0.1rem;}
+    header .buttons {margin-top: -0.2rem;}
+}
+
+
+
+/* MAIN (contains two section elements: '.items', and '.cruncher') ----------------------------- */
+
+main {
+    overflow-x: hidden;    
+}
+section {               /* the section elements have scrolling enabled within them (they become splitscreen w. separate scrolling) */
+    overflow: auto; 
+}
+
+.products {             /* the item cards sit within this section */
+    width: 100%;        /* on smaller viewports the items section takes up the full width of the screen  */
+    overflow-x: hidden; /* draggable divs can't increase the width of the items section */
+    max-height: calc(100vh - var(--header-ht-mob)); /* to enable scrolling within the section */
+    padding: 6rem 2rem;
+    position: relative;
+    transition: 0.25s;
+    margin-top: 0;
+    background-color: var(--items-bg);
+
+}
+
+#cruncher {             /* the cruncher is in this section */
+    position: absolute; /* it's taken out of the document flow, */
+    width: 0;
+    transition: width 0.3s ease;
+    top: calc(var(--header-ht-mob));                /* it appears under the header row, */
+    max-height: calc(100vh - var(--header-ht-mob)); /* it takes up the rest of the vertical screen-space under the header, */
+    right: 0px;
+    z-index: 10052;     /* and it's stacked way above all other elements, esp the draggable divs */
+    background-color: var(--cruncher-bg); 
+
+    padding: 0;
+    box-shadow: 0px 0px 2px lightgray;
+    border-left: 0.5px solid lightgrey;
+    overflow-x: hidden;
+}
+
+@media(min-width: 720px) {  /* at breakpoint 1, */
+    main {                  /* 'main' is split into two columns: '.items' and '.cruncher'  */
+        display: flex;  
+    }
+    #cruncher {  
+        position: static;   /* the cruncher is reinserted back to the document flow */
+        padding: 0;
+        width: 0; /* its width is 0 initially */
+        /* width: var(--cruncher-wd); /* its width is set via the variable above (CSS custom property) */
+        max-height: none;
+        flex-grow: 1;
+        flex-shrink: 0;
+    }    
+    .products {             /* takes the width of the viewport minus the cruncher's width */
+        /* width: calc(100vw - var(--cruncher-wd)); */
+        flex-shrink: 1;
+        flex-grow: 1;
+        max-height: none;
+        padding: 5rem 4rem;
+    }
+
+}
+@media(min-width: 1000px) { /*at breakpoint 2, */
+    .products {padding: 5rem 4.2rem;}
+
+}
+
+/* BUTTONS ------------------------------------------------------------------------------------- */
+
+.buttons {
+    cursor: pointer;
+    user-select: none;
+    outline: 0;
+    border: 0;
+    border: 0px solid lightgrey;
+    border-radius: 18px;
+    padding: 3px 1rem 4px 1rem;   
+    background-color: var(--highlight1);
+    box-shadow: 0px 0px 3px rgb(210, 214, 207);
+}
+
+.buttons:hover {
+    background-color: var(--button-hover);
+    cursor: pointer;
+    user-select: none;
+    transition: 0.5s;
+}
+
+
+/* the buttons on the left (products section): */
+
+.button-row { /* is technically nested within the items section in the HTML, but has a fixed position (so it's out of the document flow) and is then placed visually 'outside' of the header bar */
+    position: fixed;
+    top: calc(var(--header-ht-mob) + 0.6rem); /* so it appears just below the header bar */
+    z-index: 10010;
+    left: 1.2rem;
+}
+.button-row .buttons {
+    width: 3.6rem;
+}
+.button-row .buttons:nth-of-type(2) p {
+    position: relative;
+    top: 0px;  
+    transform: scale(1.2); 
+}
+#close-instructions {
+    display: none;
+    position: fixed;
+    top: calc(var(--header-ht) + 0.6rem);
+    left: 1.2rem;
+    background-color: white;
+}
+#close-instructions:hover {
+    background-color: var(--button-hover);
+}
+@media(max-width: 720px) { /* breakpoint1 */
+    #close-instructions {margin-top: calc(var(--header-ht-mob) - var(--header-ht));}
+}
+#close-instructions p {
+    transform: scale(1.25);
+}
+
+#refresh {
+    left: 3.9rem;
+    z-index: 10000;
+}
+#close-all {
+    left: 6.6rem;
+    z-index: 10000;
+}
+
+@media(min-width: 720px){ /* at breakpoint 1, */
+    .button-row {
+        top: calc(var(--header-ht) + 0.5rem); /* so it appears just below the updated header bar height */
+    }
+}
+
+
+/* buttons on the right (cruncher section): */
+#open-cruncher, #close-cruncher { /* is technically nested within the items section in the HTML, but has a fixed position (so it's out of the document flow) and is then placed visually 'outside' of the header bar */
+    position: fixed;
+    top: calc(var(--header-ht-mob) + 0.6rem);      /* so it appears just below the header bar */
+    right: 1.2rem; 
+    z-index: 10001;
+}
+#close-cruncher {
+    z-index: 1000;
+    width: 3.6rem;
+
+}
+#open-cruncher {width: 4.8rem;}
+#open-cruncher p {display: inline-block;}
+#open-cruncher span {
+    font-size: 0.8rem;
+    font-weight: 300;
+    /* position: absolute;
+    top: 0px;
+    left: -25px;
+    background-color: lightgoldenrodyellow;
+    border-radius: 15px; */
+    padding: 5px;
+}
+
+#clear-button {
+    position: absolute;
+    display: none;
+    top: 0.6rem;
+    right: 0.75rem;
+    width: 3.6rem;
+    z-index: 10090;
+    border: 0px solid lightgrey;
+    border-radius: 15px;
+    box-shadow: 0.5px 0.5px 2px lightgray;
+}
+
+#clear-button p {
+    position: relative;
+    top: 1px;
+}
+.bi-arrows-angle-expand, .bi-arrows-angle-contract {
+    transform: rotate(90deg);
+}
+
+@media(min-width: 720px){ /* at breakpoint 1, */
+    #open-cruncher, #close-cruncher {
+        top: calc(var(--header-ht) + 0.5rem);     /* so it appears just below the updated header bar height */
+    }
+    #clear-button {
+        top: 0.5rem;
+    }
+}
+
+/* INSTRUCTIONS-MODAL -------------------------------------------------------------------------- */
+
+#instructions {
+    position: fixed;
+    top: -200vh; /* so it's initially outside the viewport */
+    transition: top 0.4s ease-out;
+    left: 0rem;
+    width: 100%;
+    z-index: 10005;
+
+    background-color: rgba(255,255,255, 1);
+    border-bottom: 0.5px solid lightgray;
+    border-right: 0.5px solid lightgray;
+    box-shadow: 0px 0px 4px lightgray;
+}
+
+.instructions-wrap {
+    padding-left: 6rem;
+    padding-top: calc(0.9rem + var(--header-ht-mob) - var(--header-ht));
+    padding-right: 6rem;
+    padding-bottom: 2rem;
+}
+.instructions-wrap p:first-of-type {
+    margin-bottom: 1rem;
+    text-transform: uppercase;    
+    letter-spacing: 0.02rem;
+    font-weight: 380;
+}
+#instructions > p:first-of-type {
+    letter-spacing: 0.06rem;
+    font-weight: 380;
+}
+.instructions-wrap p {
+    margin-bottom: 0.5rem;
+}
+.instructions-wrap p:last-of-type {
+    margin-bottom: 0rem;
+    margin-top: 1rem;
+
+}
+
+
+@media(min-width: 720px){ /* at breakpoint 1, */
+    #instructions {
+        width: calc(100vw - var(--cruncher-wd) + 1px); /* */
+    }
+    .instructions-wrap {
+        padding-top: 0.9rem;
+        padding-right: 4rem;
+        padding-bottom: 4rem;
+
+    }
+    .instructions-wrap p {
+        word-break: break-word;
+    }
+  
+}
+@media(min-width: 1000px){ /* at breakpoint 2, */
+    #instructions {width: calc(50vw + 1px);}
+    
+}
+
+
+/* ABOUT MODAL --------------------------------------------------------------------------------- */
+
+#about {
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    transition: width 0.4s ease; /* 0.5 second transition effect to slide in the sidebar */
+    position: fixed; /* Stay in place */
+    z-index: 12050; /* Stay on top */
+    top: 0;
+    right: 0;
+    background-color: var(--about-bg);
+    box-shadow: 0px 0px 4px lightgray;
+    border-left: 0.5px solid lightgray;
+    overflow-y: scroll;
+    overflow-x: hidden; /* Disable horizontal scroll */
+    scroll-behavior: smooth;
+    padding: 0;
+}
+  
+@media(min-width: 720px) {
+    #about {
+        max-width: 50vw;    
+    }
+}
+
+.about-wrap {
+    padding-bottom: 4rem;    
+}
+
+.about-menu {
+    z-index: 12051; /* Stay on top */
+
+    width: 100%;
+    background-color: var(--about-bg);
+    border-bottom: 1px solid lightgray;
+    min-height: var(--header-ht);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    padding: 1.4rem 4.4rem 1rem 1.2rem;
+
+    box-shadow: 0px 0px 2px lightgray;
+    position: sticky;
+    top: 0;
+
+  }
+
+.about-text {
+    padding: 4rem 4.4rem 0 1.2rem;
+
+}
+
+
+
+/* PRODUCT-CARDS ------------------------------------------------------------------------------- */
+
+.shop {  /* the items container */
+    width: auto;
+    margin:0;
+    padding:0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 160px);
+    column-gap: 1.2rem;
+    row-gap: 2rem;
+    justify-content: center;
+}
+
+@media(min-width: 720px) {
+.shop {
+    grid-template-columns: repeat(auto-fill, 170px);
+    column-gap: 2rem;
+
+}
+
+}
+@media(min-width: 1000px) {
+    .shop {
+        column-gap: 4rem;
+    }
+    
+}
+
+.item { /* the product card */
+    position: relative;
+    width: var(--item-wd);
+    transition: width 0.2s;
+    height: fit-content;
+    background-color: white;
+    border: 1px solid rgb(240, 240, 240);
+    border-radius: 3px;
+    padding: 8px 8px 0px 8px;
+    overflow: visible;  
+    box-shadow: 0px 0px 3px lightgrey;
+}
+
+.img-wrap  {
+    width: 100%;
+    border-top-left-radius: 0rem;
+    border-top-right-radius: 0rem;
+    height: var(--img-ht);
+    transition: height 0.1s;
+    display: flex;
+    justify-content: flex-end;
+}
+
+img {
+    display: block;
+    margin:0;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.expand-card {
+    position: absolute;
+    right: -8px;
+    bottom: 4px;
+    border: 0px solid lightgrey;
+    border-radius: 15px;
+    padding: 0 0.6rem 1px 0.6rem;   
+    background-color: var(--button-col1);
+    box-shadow: 0.5px 0.5px 2px lightgray;
+    height: fit-content;
+    width: fit-content;
+    cursor: pointer;
+    font-size: 0.5rem;
+}
+
+.expand-card:hover, .close-card:hover {
+    transform: scale(1.1);
+    background-color: var(--button-hover) ;
+    transition: scale 0.1s ease-in-out;
+    transition: background-color 0.5s ease;
+   
+}
+.close-card {
+    position: absolute;
+    top: -5px;
+    right: -8px;
+    width: fit-content;
+    border: 0px solid lightgrey;
+    border-radius: 15px;
+    padding: 0rem 0.6rem 0rem 0.6rem;   
+    background-color: var(--button-col1);
+    box-shadow: 0.5px 0.5px 2px lightgray;
+    column-gap: 0.5rem;
+    cursor: pointer;
+    overflow: hidden;
+    display: none;
+}
+.close-card p {
+    transform: scale(1.2);
+}
+
+
+/* CARD BUTTONS ---------------------------------------------------------------------------------------- */
+.cart-buttons {
+    position: absolute;
+    top: -4px;
+    left:-10px;
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    border: 0px solid lightgrey;
+    border-radius: 15px;
+    padding: 0 0.6rem 1px 0.6rem;   
+    background-color: var(--button-col1);
+    box-shadow: 0.5px 0.5px 2px lightgray;
+    column-gap: 0.5rem;
+    cursor: pointer;
+    user-select: none;
+}
+
+.bi-dash-lg {
+    color: black;
+}
+  
+.bi-plus-lg {
+    color: black;
+}
+
+
+
+/* CARD DETAILS ---------------------------------------------------------------------------------------- */
+.details {
+    margin-top: -10px ; /* the title covers the img */
+}
+/* the unit number text */
+.details p {
+    font-size: 0.8rem;    
+}
+
+/* the expanded content: */
+.content {
+    height: 0;
+    padding: 0px;
+    margin-top: 0.4rem;
+    gap:0px;
+    overflow: hidden;
+}
+
+/* sections within the expanded content: */
+.content > div {
+    padding: 0.4rem 0;
+    border-bottom: 1.5px dashed var(--dashed-border);
+}
+.content p:first-of-type{ /* the 'headers' for each section */
+    margin-top: 0.2rem;
+    margin-bottom: 0.2rem;
+    letter-spacing: 0;
+    font-size: 0.72rem;
+    font-weight: 270;
+}
+.content p {
+    font-size: 0.8rem;
+}
+
+.content > div:last-of-type {
+    border: 0;
+}
+
+/* materials: */
+.materials {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+.materials p:last-of-type{
+    text-align: right;
+    padding-right: 0.2rem;
+}
+
+/* emissions: */
+.emissions p:last-of-type { /* the CO2 value (large text): */
+    font-size: 1.1rem;
+    line-height: 1.2;
+    padding-left: 0.25rem;
+}
+.emissions span:last-child { /* 'kg' */
+    font-size: 0.72rem;
+    margin-left: -0.2rem;
+}
+
+/* LCA: */
+
+.lca > p:first-of-type {
+    margin-bottom: 0.4rem;
+}
+.lca div {
+    margin-bottom: 0.25rem;
+    padding-left: 0.25rem;
+}
+.lca div p {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+.lca div p > span:first-of-type { 
+    font-size: 1rem;
+}
+.lca div p > span:first-of-type span { /* 'kg' */
+    margin-left: -0.2rem;
+}
+.lca div p:first-of-type {
+    margin-bottom: 0px;
+}
+.lca div p > span:last-of-type { 
+    font-size: 0.8rem;
+}
+
+.lca span:last-of-type > span {
+    padding-left: 0.2rem;
+}
+.lca span:first-of-type > span {
+    margin-left: -0.1rem;
+}
+
+
+/* composition: */
+.composition p:last-of-type {
+    padding-bottom: 0.4rem;
+}
+.composition p:first-of-type {
+    margin-bottom: 0.4rem;
+}
+.composition p {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+}   
+.composition span {
+    letter-spacing: -0.02rem;
+    padding: 0;
+    flex-grow: 1;
+    flex-shrink: 0;
+}
+.composition span:nth-of-type(2) { /* the span with the dotted lines */
+    flex-shrink: 1;
+    overflow: hidden;
+}
+
+.composition span:first-of-type {
+    padding-left: 0.25rem;
+}
+
+.notes p:last-of-type {
+    padding-left: 0.25rem;
+    padding-bottom: 0.4rem;
+}
+
+
+/* CRUNCHER ---------------------------------------------------------------------------------------- */
+#cruncher-wrap {
+    position: relative;
+    width: 100%;
+    padding: 1rem 0.8rem 1.5rem 0.8rem;
+}
+
+#cruncher-details > div  {
+    padding-bottom: 0.8rem;
+    margin-bottom: 1rem;
+    border-bottom: 1.5px dashed var(--dashed-border);
+}
+
+/* the emissions impact (large numbers) */
+#cruncher-details > p:first-of-type {
+    font-size: 1.4rem;
+    font-weight: 250;
+    letter-spacing: -0.08rem;
+    line-height: 0.8;
+    padding-top: 1rem;
+    padding-left: 0.5rem;
+    padding-bottom: 0.8rem;
+    margin-bottom: 0.8rem;
+    margin-right: -0.4rem;
+    border-bottom: 1.5px dashed var(--dashed-border);
+}
+
+#cruncher-details > p:first-of-type span:first-of-type { /* 'kg' */
+    margin-left: -0.25rem;
+    }
+#cruncher-details > p:first-of-type span:last-of-type { /* '(CO2 EQ.)' */
+    font-size: 0.8rem;
+    letter-spacing: -0.04rem;
+    margin-left: -0.4rem;
+}
+#cartAmount2 {
+    font-size: 1.1rem;
+}
+
+
+/* the 'titles' */
+.cruncher-text > p:first-of-type, .total-composition > p:first-of-type, .total-lca > p:first-of-type {
+    font-size: 0.9rem;
+    margin-bottom: 0.8rem;
+    letter-spacing: -0.02rem;
+    font-weight: 300;
+}
+
+.cruncher-text > p:first-of-type {
+    margin-bottom: 1rem;
+}
+
+#totalSelection {
+    margin-bottom: 0.8rem;
+    padding-left: 0.5rem;
+    line-height: 0.8;
+}
+#totalSelection p {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.16rem;
+    padding-right: 0.2rem;
+}
+#totalSelection span {
+    font-size: 0.9rem;
+    letter-spacing: -0.02rem;
+    font-weight: 300;
+}
+#cartImg {
+    padding-left: 0.5rem;
+}
+#cartImg img {
+    height: 3rem;
+    display: inline-block;
+}
+
+/* LCA: */
+.total-lca div {
+    margin-bottom: 0.4rem;
+    padding-left: 0.5rem;
+    padding-right: 0.25rem;
+}
+.total-lca div p {
+    font-size: 0.9rem;
+    font-weight: 300;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+.total-lca div p > span:first-of-type { /* Emissions breakup: Mfg, Trnsp, Use, Eol */
+    font-size: 1.2rem;
+}
+.total-lca div p > span:first-of-type span { /* 'kg' */
+    margin-left: -0.25rem;
+    font-size: 1.2rem;
+}
+.total-lca div p:first-of-type {
+    margin-bottom: 0px;
+}
+.total-lca div span:last-child {
+    font-size: 0.9rem;
+    font-weight: 300;
+}
+.total-lca span:last-of-type > span {
+    padding-left: 0.2rem;
+}
+
+/* resource composition (total) */
+.total-composition p {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    font-size: 0.9rem;
+    font-weight: 300;
+}   
+.total-composition p:first-of-type {
+    display: block;
+}
+.total-composition p:last-of-type {
+    margin-bottom: 0.8rem;
+}
+.total-composition span {
+    letter-spacing: -0.02rem;
+    padding: 0;
+    flex-grow: 1;
+    flex-shrink: 0;
+    line-height: 1.25;
+}
+.total-composition span:nth-of-type(2) { /* the span with the dotted lines */
+    flex-shrink: 1;
+    overflow: hidden;
+}
+.total-composition span:first-of-type {
+    padding-left: 0.5rem;
+}
+
+.print-button {
+    cursor: pointer;
+    background-color: white;
+    width: 100%;
+    z-index: 10090;
+    border: 1px solid lightgrey;
+    padding: 0.2rem 0;
+    border-radius: 15px;
+    box-shadow: 0px 0px 2px lightgray;
+}
+.print-button:hover {
+    background-color: var(--button-hover);
+}
+.print-button p, header .buttons p {
+    letter-spacing: 0.1rem;
+    font-family: 'Azeret Mono Variable', 'Courier New', Courier, monospace;
+    font-size: 1rem;
+    font-weight: 300;
+    padding-left: 2px;
+}
+
+
+/* TEXT ---------------------------------------------------------------------------------------- */
+
+html {
+    font-family: 'Azeret Mono Variable', 'Courier New', Courier, monospace;
+    color: var(--text-col);
+}
+
+h1 {
+    margin: 0;
+    padding: 0;
+    font-size: 1.2rem;
+    font-weight: 320;
+    letter-spacing: -0.02rem;
+}
+
+h2 {
+    margin: 0;
+    padding: 0;
+    font-size: 1.05rem;
+    font-weight: 300;
+    letter-spacing: -0.05rem;
+    line-height: 1.1;
+}
+
+.byline {
+    font-size: 0.8rem;
+    font-weight: 350;
+}
+.buttons p, .buttons span {
+    font-family: 'Azeret Mono Variable','Courier New', Courier, monospace;
+    font-size: 1rem;
+    font-weight: 350;
+    letter-spacing: 0;
+    text-align: center;
+    color: var(--text-col)
+}
+
+p {
+    margin: 0;
+    padding: 0;
+    font-size: 1rem;   
+    font-weight: 200;
+    letter-spacing: -0.04rem;
+}
+
+
+
+.highlighted {
+    background-color: rgb(255, 235, 238);
+}
+
+.about-menu a p {
+        text-transform: uppercase;    
+        letter-spacing: 0.02rem;
+        font-weight: 380;
+        line-height: 0.5;
+}
+
+.about-text p {
+    font-size: 1rem;
+    font-weight: 250;
+    letter-spacing: -0.01rem;
+    line-height: 1.25;
+    margin-bottom: 0.5rem;
+}
+.about-text .s, .s {
+    font-size: 0.85rem;
+}
+
+.about-text p + p {
+    text-indent: 6rem;
+}
+#impressum p + p {
+    text-indent: 0;
+}
+#impressum p {
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+}
+#impressum p:first-of-type {
+    font-size: 1rem;
+}
+#impressum span {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 400;
+    line-height: 1.6;
+}
+
+/* LINKS --------------------------------------------------------------------------------------- */
+a {
+    color: var(--text-col);
+}
+
+
+/* SELECTION ----------------------------------------------------------------------------------- */
+
+::-moz-selection {
+    background: var(--highlight1); 
+}
+::selection {
+    background: var(--highlight1); 
+}
+
+
+
+/* SCROLLBARS ---------------------------------------------------------------------------------- */
+
+section::-webkit-scrollbar {width: 11px;}
+
+section {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-col) var(--scrollbarBG);
+}
+
+section::-webkit-scrollbar-track {
+    background: var(--cruncher-bg);
+    border-left: 0px solid white;
+}
+section::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-col) ;
+    border-radius: 0px;
+    border: 2px solid var(--cruncher-bg);
+}
+
+.products::-webkit-scrollbar-track {
+    background: var(--items-bg);
+}
+.products::-webkit-scrollbar-thumb {
+    border-color: var(--items-bg);
+}
+#about::-webkit-scrollbar-track {
+    background: var(--about-bg);
+}
+#about::-webkit-scrollbar-thumb {
+    border-color: var(--about-bg);
+}
+
+
+/* PRINT ---------------------------------------------------------------------------------- */
+@media print
+    {
+    
+    :root {--cruncher-wd: 100%;}
+
+    body * { visibility: visible;}
+    
+    header {display:none;}
+    
+    .products {display: none;}
+    
+    #cruncher * { visibility: visible; }
+
+    #cruncher { 
+        visibility: visible; 
+        background-color: none;
+        margin: 0;
+        opacity: 100%;
+        border:none;
+        box-shadow: 0 0 0 ;
+        max-height: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: var(--cruncher-wd);
+        display: flex;
+        flex-direction: row;
+    }
+
+
+    #close-cruncher * { display: none;}
+    #open-cruncher * { display: none;}
+    #clear-button {display: none; box-shadow: 0 0 0;}
+    #clear-button * {display: none; }
+  
+    .print-button { display: none;}
+
+}
