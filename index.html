@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Handwerk — Impact Calculator (for your handpoked tattoo session)</title>
+    <link rel="stylesheet" href="src/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/Draggable.min.js"></script>  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+
+
+</head>
+
+<body>
+    <header>
+        <div class="h1-wrap">
+            <h1 class="title">IMPACT CALCULATOR</h1>
+            <h1 class="byline">(for your handpoked tattoo session)</h1>
+        </div>
+
+        <button class="buttons" id="open-about" onclick="openAbout()">
+            <p>INFO</p>
+        </div>
+
+    </header>
+
+    <main>
+
+        <section class="products" id="products">
+
+            <div class="button-row"> 
+                <button class="buttons" id="open-instructions" onclick="showInstructions()">
+                    <p>?</p>
+                </button>
+
+                <div id="instructions">
+                    <button class="buttons" id="close-instructions" onclick="hideInstructions()">
+                        <p class="bi bi-x"></p>
+                    </button>
+
+                    <div class="instructions-wrap">
+                        <p><span>How to use this site:</span></p>
+                        <p class="s">1. Expand an item card (<span class="bi bi-arrows-angle-expand"></span>) to see its emissions impact and resource composition per unit.</p>
+                        <p class="s">2. Add/remove items as per use, to get your tattoo session’s total impact—openable from the right (<span class="bi bi-arrow-bar-left"></span>).</p>
+                        <p class="s">3. Hit <span class="bi bi-grid-3x2"></span> to re-arrange the item cards, and <span class="bi bi-arrows-angle-contract"></span> to close all expanded cards.</p>
+                        <p class="s">4. Clear all selected products (and the session impact receipt) with <span class="bi bi-trash"></span>*.</p>
+                        <p class="s">5. Scroll to the end of the impact receipt to print it.</p>
+                        <p class="s">*This website saves none of your data; all data is stored locally on your system!</p>
+                    </div>
+
+                </div>
+            
+                <button class="buttons" id="refresh" onclick="resetCards()">
+                    <p class="bi bi-grid-3x2"></p>
+                </button>
+                <button class="buttons" id="close-all" onclick="closeCards()">
+                    <p class="bi bi-arrows-angle-contract"></p>
+                </button>
+            </div>
+
+            <div id="shop" class="shop"></div>
+
+        </section>
+
+
+        <section id="cruncher">
+        <div id ="cruncher-wrap" class="cruncher-wrap">
+            <button class="buttons" id="open-cruncher" onclick="openCruncher()">
+                <p class="bi bi-arrow-bar-left" ></p><span id="cartAmount"></span>
+            </button>
+            <button class="buttons" id="close-cruncher" onclick="closeCruncher()">
+                <p class="bi bi-arrow-bar-right"></p>
+            </button>
+
+            
+            <button class="buttons" id="clear-button" onclick="clearSelection()" >
+                <p class = "bi bi-trash"></p>
+            </button>
+
+            <div class="cruncher-text">
+                <p>EMISSIONS IMPACT<br>of <span id="cartAmount2"></span> items used this session:</p>
+            </div>
+         
+            <div id="totalSelection">
+            </div>
+            <div id="cartImg">
+            </div>
+
+            <div id="cruncher-details">
+            </div>
+
+        </div>    
+        </section>
+
+        <section id="about">
+        <div class="about-wrap">
+
+                <div class="about-menu">
+                    <a href="#about-this-site"><p>About</p></a>
+                    <a href="#background"><p>Background</p></a>
+                    <a href="#credits"><p>Credits</p></a>
+                    <a href="#impressum"><p>Impressum</p></a>
+                <button class="buttons" id="close-about" onclick="closeAbout()">
+                    <p class="bi bi-x"></p>
+                </button> 
+                </div>
+
+                
+                <article class="about-text" id="about-this-site">
+                    <p>This website is a reference for Life Cycle Analyses (LCAs) for the range of products and tools used at Handwerk Studio for hand-poke tattooing. The site can be used to look up the environmental impact data of specific products, and to also calculate the impact of individual tattoo sessions that use these products. The product range displayed here is based on the studio’s preference, but the data calculated and visualised here can be utilised by other tattoo artists and enthusiasts in Cologne and Bonn who want to gain a better understanding of the impact that tattooing has on the environment.</p>
+                </article>     
+
+                <article class="about-text" id="background">
+                    <p>The impact calculator was developed in the context of Marcel Müller’s BA graduation project, which aims to visualise the environmental impact of tattoo products’ processes. The project was initiated with the goal of reducing the environmental impact of tattoo sessions, in particular the amount of plastic waste. Further research and calculations brought to light the high-impact nature of single-use applications and products, and the intention was to see if visualising LCA data in a friendly and accessible manner could foster a better understanding of the environmental impacts of tattoo products and sessions, especially amongst tattooing communities in the Cologne–Bonn region of Germany.</p>
+                    <p>One of the more problematic scenarios highlighted in the thesis is the end-of-life process of incineration that is the most common solution for waste disposal in Germany. This creates toxic byproducts as well as air pollution that should not be underestimated. There is a need for political, consumer and manufacturing behaviours to adopt more sustainable systems in the future. Since there are currently very few solutions at hand regarding products’ end-of-life, reducing waste is the most viable way of impact reduction.</p>
+                    <p>The thesis thus indicates potential areas for improvement, and also verbalises the data gaps* in this sector transparently. Moreover, it also includes schematics/blueprints for the manufacturing of the hand-poke tool, Ekatā S, which was designed and prototyped by Marcel as part of this ongoing research. The Ekatā S eliminates the need for single-use cartridge needle grips, and is a sustainable proposition for extended periods of time—reducing impact with the benefit of personalisation to the artist's liking, especially when locally produced.</p>
+                    <p><a href="src/Marcel Müller_BA_Thesis_ 26.6.22_compressed.pdf" target="_blank">Download</a> a copy of Marcel’s BA thesis for further information about this project. For questions regarding the thesis, feel free to contact Handwerk Studio via <a href="mailto:handwerk.stickandpoke@gmail.com">email</a> or <a href="https://www.instagram.com/handwerk_tattoo/">Instagram</a>.</p>
+                    <p class="s">*Not all data gaps or concerns could be solved within the limited time-frame of the bachelor project, primarily due to the lack of access to product specific data, as well as other limitations in the LCA software, ‘Sustainable Minds 2013’. Data on this site will be updated whenever new research and data becomes available. </p>
+                </article>     
+
+                <article class="about-text" id="credits">
+                    <p>This web-based tool was developed as part of Marcel Müller’s thesis, submitted towards a BA in Integrated Design from the Köln International School of Design, at the TH Köln – University of Applied Sciences.</p>
+                    <p>Thanks to Frank Millero for constructive feedback regarding LCAs; André Freiha for providing the G-Code for the CNC-based manufacturing of the Ekatā S tool; Hendrik Arnold, Gerd Mies and Eduard Paal for valuable feedback on design manufacturability and support there of; Leonie Spachtholz and Angela Feld for copy-editing the thesis; Andreas Klein for his help in manufacturing the tool packaging; and Roshan Shakeel and Upendra Vaddadi for the design and development of this website.</p>
+                    <br>
+                    <p class="s">2022, handwerk.ink | Last update: 03.07.2022</p><br>
+                    <hr>
+                </article>    
+
+
+                <article class="about-text" id="impressum">
+                    <p>Angaben gemäß § 5 TMG</p>
+                    <p> <span>Handwerk</span>
+                        <br>Marcel Müller
+                        <br>Lüttringhauserstr. 49/51
+                        <br>51103 Köln
+                    </p>
+                    <p> <span>USt.-ID:</span>
+                        <br>DE 336 214 211
+                    </p>
+
+                    <p> <span>Kontakt:</span>
+                        <br>Telefon: 0177-5403792
+                        <br>E-Mail: handwerk.stickandpoke@gmail.com
+                    </p>
+                    
+                    <p><span>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV</span>
+                        <br>Marcel Müller
+                    </p>
+                    
+                     
+                    <p><span>Streitschlichtung</span>
+                        <br>Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit: https://ec.europa.eu/consumers/odr. Unsere E-Mail-Adresse finden Sie oben im Impressum. Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+                      
+                    <p><span>Haftung für Inhalte</span>
+                    <br>Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.</p>
+                     
+                   <p>Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt. Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt der Kenntnis einer konkreten Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden Rechtsverletzungen werden wir diese Inhalte umgehend entfernen.</p>
+                    
+                   <p><span>Haftung für Links</span>
+                    <br>Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich. Die verlinkten Seiten wurden zum Zeitpunkt der Verlinkung auf mögliche Rechtsverstöße überprüft. Rechtswidrige Inhalte waren zum Zeitpunkt der Verlinkung nicht erkennbar.</p>
+                    
+                    <p> Eine permanente inhaltliche Kontrolle der verlinkten Seiten ist jedoch ohne konkrete Anhaltspunkte einer Rechtsverletzung nicht zumutbar. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Links umgehend entfernen.</p>
+                    
+                   <p><span>Urheberrecht</span>
+                    <br> Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers. Downloads und Kopien dieser Seite sind nur für den privaten, nicht kommerziellen Gebrauch gestattet.</p>
+                     
+                    <p>Soweit die Inhalte auf dieser Seite nicht vom Betreiber erstellt wurden, werden die Urheberrechte Dritter beachtet. Insbesondere werden Inhalte Dritter als solche gekennzeichnet. Sollten Sie trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bitten wir um einen entsprechenden Hinweis. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Inhalte umgehend entfernen.</p>
+                    
+                </article>  
+        </div>           
+        </section>
+
+    </main>
+
+</body>
+
+<script>
+
+    // Show the '#instructions' modal 
+    function showInstructions() {
+        document.getElementById("instructions").style.top = "calc(var(--header-ht))";
+        document.getElementById("open-instructions").style.opacity = "0";
+        document.getElementById("close-instructions").style.display = "block";
+
+    }
+    // Hide the '#instructions' modal 
+    function hideInstructions() {
+        document.getElementById("instructions").style.top = "-100vh";
+        document.getElementById("open-instructions").style.opacity = "100";
+        document.getElementById("close-instructions").style.display = "none";
+    }
+  
+    // Open the '#cruncher' column 
+    function openCruncher() {
+        document.getElementById("cruncher").style.width = "var(--cruncher-wd)";
+        document.getElementById("open-cruncher").style.display = "none";
+        document.getElementById("open-cruncher").style.right = "calc(var(--cruncher-wd) + 1rem)";
+        document.getElementById("close-cruncher").style.right = "calc(var(--cruncher-wd) + 1rem)";
+        document.getElementById("close-cruncher").style.transition = "right 0.3s ease";
+        document.getElementById("clear-button").style.right = "0.75rem";
+    }
+    // Close the '#cruncher' column 
+    function closeCruncher() {
+        document.getElementById("cruncher").style.width = "0";
+        document.getElementById("open-cruncher").style.display = "block";
+        document.getElementById("close-cruncher").style.right = "1.2rem";
+        document.getElementById("close-cruncher").style.transition = "right 0.4s ease";
+        document.getElementById("open-cruncher").style.right = "1.2rem";
+        document.getElementById("clear-button").style.transition = "right 0.3s ease";
+
+        document.getElementById("clear-button").style.right = "-20rem";
+    } 
+
+</script> 
+
+<script src="src/Data.js"></script>
+<script src="src/main.js"></script>
+
+
+</html>
